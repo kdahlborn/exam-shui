@@ -53,12 +53,6 @@ functions:
             - httpApi:
                   path: /messages
                   method: GET
-    getUserMessages:
-        handler: functions/messages/getUserMessages/index.handler
-        events:
-            - httpApi:
-                  path: /users/{username}/messages
-                  method: GET
     createMessage:
         handler: functions/messages/createMessage/index.handler
         events:

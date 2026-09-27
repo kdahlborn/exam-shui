@@ -8,8 +8,8 @@ export const createMessage = (messageData) => {
         PK: 'MESSAGE',
         SK: messageId,
 
-        GSI1PK: `USER#${messageData.username}`,
-        GSI1SK: `${date}#${messageId}`,
+        GSI1PK: `USER#${messageData.userId}`,
+        GSI1SK: `${messageId}`,
 
         messageId,
         createdAt: date,
