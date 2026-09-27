@@ -22,3 +22,43 @@ export const addMessage = async (message) => {
         throw createError(500, error.message);
     }
 };
+
+export const getMessages = async () => {
+    try {
+        const command = new QueryCommand({
+            TableName: 'shui-db',
+            KeyConditionExpression: 'PK = :pk',
+            ExpressionAttributeValues: {
+                ':pk': 'MESSAGE',
+            },
+            ScanIndexForward: false,
+        });
+
+        const { Items } = await db.send(command);
+
+        return Items;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
+
+export const getMessagesByUserId = async (userId) => {
+    try {
+        const command = new QueryCommand({
+            TableName: 'shui-db',
+            IndexName: 'GSI1',
+            KeyConditionExpression: 'GSI1PK = :gsi1pk',
+            ExpressionAttributeValues: {
+                ':gsi1pk': `USER#${userId}`,
+            },
+        });
+
+        const { Items } = await db.send(command);
+
+        return Items;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
