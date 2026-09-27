@@ -1,16 +1,16 @@
 import { hashPassword } from './bcrypt.mjs';
 
 export const createUser = async (body) => {
-    const id = crypto.randomUUID().slice(0, 5);
+    const userId = crypto.randomUUID().slice(0, 5);
 
     return {
-        PK: `USER#${id}`,
+        PK: `USER#${userId}`,
         SK: 'PROFILE',
 
         GSI1PK: 'USER',
         GSI1SK: `EMAIL#${body.email.toLowerCase()}`,
 
-        id,
+        userId,
         username: body.username.toLowerCase(),
         email: body.email.toLowerCase(),
         password: await hashPassword(body.password),

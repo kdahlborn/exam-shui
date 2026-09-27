@@ -6,12 +6,17 @@ import { createMessage, formatMessage } from '../../../utils/message.mjs';
 import { addMessage } from '../../../services/messages.mjs';
 import { validateBody } from '../../../middlewares/validation.mjs';
 import { messageSchema } from '../../../models/messageModels.mjs';
+import { authenticateUser } from '../../../middlewares/authenticate.mjs';
 
 export const handler = middy(async (event) => {
     const { text } = event.body;
-    const username = 'konrad'; // Används för test
+    const { userId, username } = event.user;
 
-    const message = createMessage({ text, username });
+    const message = createMessage({
+        text,
+        userId,
+        username,
+    });
 
     await addMessage(message);
 
@@ -21,5 +26,6 @@ export const handler = middy(async (event) => {
     });
 })
     .use(httpJsonBodyParser())
+    .use(authenticateUser())
     .use(validateBody(messageSchema))
     .use(errorHandler());

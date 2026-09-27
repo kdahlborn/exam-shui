@@ -1,17 +1,17 @@
-export const createMessage = (message) => {
-    const id = crypto.randomUUID().slice(0, 8);
+export const createMessage = (messageData) => {
+    const messageId = crypto.randomUUID().slice(0, 8);
     const date = new Date().toISOString();
 
     return {
-        ...message,
+        ...messageData,
 
         PK: 'MESSAGE',
-        SK: id,
+        SK: messageId,
 
-        GSI1PK: `USER#${message.username}`,
-        GSI1SK: `${date}#${id}`,
+        GSI1PK: `USER#${messageData.username}`,
+        GSI1SK: `${date}#${messageId}`,
 
-        id,
+        messageId,
         createdAt: date,
     };
 };
