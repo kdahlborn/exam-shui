@@ -64,6 +64,25 @@ export const getMessagesByUserId = async (userId) => {
     }
 };
 
+export const getMessageById = async (messageId) => {
+    try {
+        const command = new GetCommand({
+            TableName: 'shui-db',
+            Key: {
+                PK: 'MESSAGE',
+                SK: messageId,
+            },
+        });
+
+        const { Item } = await db.send(command);
+
+        return Item;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
+
 export const updateMessage = async (messageId, updatedData) => {
     try {
         const command = new UpdateCommand({
