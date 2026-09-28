@@ -8,7 +8,6 @@ import { createMessage } from '../../api/messages';
 import { useNavigate } from 'react-router-dom';
 
 const MessageForm = ({ message = null }) => {
-    // const [text, setText] = useState(message?.text ?? '');
     const token = useAuthStore((state) => state.token);
     const navigate = useNavigate();
 
