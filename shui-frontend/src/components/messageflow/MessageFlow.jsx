@@ -4,13 +4,14 @@ import Message from '../message/Message';
 const MessageFlow = ({ messages }) => {
     return (
         <section className="message-flow">
-            {
-                messages && messages.map(message => {
-                    return <Message message={ message } key={ message.id } />
-                })
-            }
+            {messages &&
+                messages?.map((message) => {
+                    return (
+                        <Message message={message} key={message.messageId} />
+                    );
+                })}
         </section>
-    )
-}
+    );
+};
 
 export default MessageFlow;
