@@ -64,4 +64,9 @@
             pointer-events: none;
         }
     }
+
+    .message-form__error {
+        text-align: center;
+        color: rgb(226, 71, 71);
+    }
 }

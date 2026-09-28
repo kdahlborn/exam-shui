@@ -56,11 +56,11 @@ export const createMessage = async (text, token) => {
         }),
     });
 
-    if (!response.ok) {
-        throw new Error('Could not create message');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not create message');
+    }
 
     return data.newMessage;
 };
