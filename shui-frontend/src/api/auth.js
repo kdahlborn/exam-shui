@@ -9,11 +9,13 @@ export const register = async (userData) => {
         body: JSON.stringify(userData),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error('Could not register user');
+        throw new Error(data.message || 'Could not register user');
     }
 
-    return response.json();
+    return data;
 };
 
 export const login = async (credentials) => {
@@ -25,11 +27,11 @@ export const login = async (credentials) => {
         body: JSON.stringify(credentials),
     });
 
-    if (!response.ok) {
-        throw new Error('Could not log in');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not sign in');
+    }
 
     return data;
 };
