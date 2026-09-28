@@ -109,3 +109,22 @@ export const updateMessage = async (messageId, updatedData) => {
         throw createError(500, error.message);
     }
 };
+
+export const deleteMessage = async (messageId) => {
+    try {
+        const command = new DeleteCommand({
+            TableName: 'shui-db',
+            Key: {
+                PK: 'MESSAGE',
+                SK: messageId,
+            },
+        });
+
+        await db.send(command);
+
+        return true;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
