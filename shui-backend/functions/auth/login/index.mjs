@@ -22,7 +22,7 @@ export const handler = middy(async (event) => {
     return sendResponse(200, {
         message: 'User logged in!',
         token: signToken({
-            userId: user.id,
+            userId: user.userId,
             username: user.username,
             email: user.email,
         }),

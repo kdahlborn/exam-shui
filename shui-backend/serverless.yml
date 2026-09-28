@@ -53,6 +53,12 @@ functions:
             - httpApi:
                   path: /messages
                   method: GET
+    getMyMessages:
+        handler: functions/messages/getMyMessages/index.handler
+        events:
+            - httpApi:
+                  path: /users/me/messages
+                  method: GET
     createMessage:
         handler: functions/messages/createMessage/index.handler
         events:
@@ -63,13 +69,13 @@ functions:
         handler: functions/messages/updateMessage/index.handler
         events:
             - httpApi:
-                  path: /messages/{id}
+                  path: /messages/{messageId}
                   method: PUT
     deleteMessage:
         handler: functions/messages/deleteMessage/index.handler
         events:
             - httpApi:
-                  path: /messages/{id}
+                  path: /messages/{messageId}
                   method: DELETE
 
     ## AUTH
