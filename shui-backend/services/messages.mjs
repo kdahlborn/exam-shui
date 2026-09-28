@@ -3,6 +3,7 @@ import {
     GetCommand,
     QueryCommand,
     PutCommand,
+    UpdateCommand,
     DeleteCommand,
 } from '@aws-sdk/lib-dynamodb';
 import createError from 'http-errors';
@@ -57,6 +58,52 @@ export const getMessagesByUserId = async (userId) => {
         const { Items } = await db.send(command);
 
         return Items;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
+
+export const getMessageById = async (messageId) => {
+    try {
+        const command = new GetCommand({
+            TableName: 'shui-db',
+            Key: {
+                PK: 'MESSAGE',
+                SK: messageId,
+            },
+        });
+
+        const { Item } = await db.send(command);
+
+        return Item;
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
+
+export const updateMessage = async (messageId, updatedData) => {
+    try {
+        const command = new UpdateCommand({
+            TableName: 'shui-db',
+            Key: {
+                PK: 'MESSAGE',
+                SK: messageId,
+            },
+            UpdateExpression: 'SET #text = :text',
+            ExpressionAttributeNames: {
+                '#text': 'text',
+            },
+            ExpressionAttributeValues: {
+                ':text': updatedData.text,
+            },
+            ReturnValues: 'ALL_NEW',
+        });
+
+        const { Attributes } = await db.send(command);
+
+        return Attributes;
     } catch (error) {
         console.error('ERROR:', error);
         throw createError(500, error.message);
