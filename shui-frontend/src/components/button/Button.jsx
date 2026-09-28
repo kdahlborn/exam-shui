@@ -2,13 +2,14 @@ import './index.css';
 
 const Button = ({ text, type, onClick }) => {
     return (
-        <button 
+        <button
             className={`button button--${type}`}
-            onClick={ onClick }
+            onClick={onClick}
+            type={type}
         >
-            { text }
+            {text}
         </button>
-    )
-}
+    );
+};
 
 export default Button;

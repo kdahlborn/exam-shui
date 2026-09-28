@@ -4,19 +4,17 @@ import { z } from 'zod';
 // validate that email contains an "@" symbol
 export const loginSchema = z.object({
     email: z.email({ message: 'Invalid email address' }),
-    password: z
-        .string({ message: 'Password must be a string' })
-        .min(1, 'Password is required'),
+    password: z.string().min(1, 'Password is required'),
 });
 
 // create a zod schema for register including name, email and password
-// validate that username is at least 2 characters long, email contains an "@" symbol and that the password is at least 6 characters long
+// validate that username is at least 2 characters long, email contains an "@" symbol and that the password is at least 8 characters long
 export const registerSchema = z.object({
     username: z
-        .string({ message: 'Username must be a string' })
+        .string()
         .min(2, { message: 'Username must be at least 2 characters long' }),
     email: z.email({ message: 'Invalid email address' }),
     password: z
-        .string({ message: 'Password must be a string' })
-        .min(6, { message: 'Password must be at least 6 characters long' }),
+        .string()
+        .min(8, { message: 'Password must be at least 8 characters long' }),
 });
