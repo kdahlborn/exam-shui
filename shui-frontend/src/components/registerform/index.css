@@ -40,6 +40,14 @@
         }
     }
 
+    .register-form__error {
+        color: rgb(226, 71, 71);
+    }
+
+    .register-form__success {
+        color: rgb(93, 210, 93);
+    }
+
     .register-form__message {
         align-self: center;
 
@@ -48,5 +56,4 @@
             text-decoration: none;
         }
     }
-
 }

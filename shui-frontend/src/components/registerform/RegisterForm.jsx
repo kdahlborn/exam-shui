@@ -2,6 +2,8 @@ import './index.css';
 import Button from '../button/Button';
 import { Link } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { register as registerUser } from '../../api/auth';
 
 const RegisterForm = () => {
     const methods = useForm({
@@ -13,11 +15,20 @@ const RegisterForm = () => {
         },
     });
 
-    const { formState, handleSubmit, register, getValues } = methods;
+    const { formState, handleSubmit, register, getValues, reset } = methods;
     const { errors } = formState;
 
+    const { mutate, isPending, isError, error, isSuccess } = useMutation({
+        mutationFn: registerUser,
+        onSuccess: () => {
+            reset();
+        },
+    });
+
     const onSubmit = (data) => {
-        console.log(data);
+        const { confirmPassword, ...userData } = data;
+
+        mutate(userData);
     };
 
     return (
@@ -77,10 +88,23 @@ const RegisterForm = () => {
                     />
                 </label>
                 <Button
-                    text="Registrera"
+                    text={isPending ? 'Registrerar...' : 'Registrera'}
                     type="submit"
-                    onClick={() => console.log('Registrera')}
+                    disabled={isPending}
                 />
+
+                {isError && (
+                    <p className="register-form__error">
+                        {error.message || 'Kunde inte registrera användare'}
+                    </p>
+                )}
+
+                {isSuccess && (
+                    <p className="register-form__success">
+                        Användare registrerad!
+                    </p>
+                )}
+
                 <p className="register-form__message">
                     Har du redan ett konto?{' '}
                     <Link to="/login" className="register-form__message-link">
