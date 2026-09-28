@@ -1,7 +1,7 @@
-const BASE_URL = 'https://hon3uvp5z2.execute-api.eu-north-1.amazonaws.com';
+const BASE_URL = 'https://hon3uvp5z2.execute-api.eu-north-1.amazonaws.com/auth';
 
 export const register = async (userData) => {
-    const response = await fetch(`${BASE_URL}/auth/register`, {
+    const response = await fetch(`${BASE_URL}/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export const register = async (userData) => {
 };
 
 export const login = async (credentials) => {
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+    const response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

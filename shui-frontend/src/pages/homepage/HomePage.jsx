@@ -17,7 +17,7 @@ const HomePage = () => {
         error,
     } = useQuery({
         queryKey: ['messages'],
-        queryFn: () => getMessages(userId),
+        queryFn: getMessages,
     });
 
     if (isError) {
