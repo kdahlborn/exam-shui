@@ -2,6 +2,7 @@ import { db } from './db.mjs';
 import { GetCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import createError from 'http-errors';
 
+// ADD USER
 export const addUser = async (user) => {
     try {
         const command = new PutCommand({
@@ -18,6 +19,7 @@ export const addUser = async (user) => {
     }
 };
 
+// GET USER BY EMAIL
 export const getUserByEmail = async (email) => {
     try {
         const command = new QueryCommand({
@@ -39,6 +41,7 @@ export const getUserByEmail = async (email) => {
     }
 };
 
+// GET USER BY USERNAME
 export const getUserByUsername = async (username) => {
     try {
         const command = new GetCommand({
