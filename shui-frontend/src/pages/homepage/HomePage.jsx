@@ -20,6 +20,10 @@ const HomePage = () => {
         queryFn: getMessages,
     });
 
+    if (isLoading) {
+        return <p>Laddar...</p>;
+    }
+
     if (isError) {
         console.log(error.message);
     }
