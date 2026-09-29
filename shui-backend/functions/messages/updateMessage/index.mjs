@@ -14,7 +14,7 @@ export const handler = middy(async (event) => {
     const result = await updateMessage(messageId, event.body);
 
     return sendResponse(200, {
-        message: 'Message updated!',
+        message: 'Message updated',
         updatedMessage: formatMessage(result),
     });
 })
