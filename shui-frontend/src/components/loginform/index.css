@@ -40,6 +40,10 @@
         }
     }
 
+    .login-form__error {
+        color: rgb(226, 71, 71);
+    }
+
     .login-form__message {
         align-self: center;
 
@@ -48,5 +52,4 @@
             text-decoration: none;
         }
     }
-
 }

@@ -1,0 +1,20 @@
+.mypage {
+    .mypage__top {
+        padding: 2rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .mypage {
+        .mypage__top {
+            flex-direction: column;
+            gap: 1rem;
+            /* .button {
+                align-self: stretch;
+            } */
+        }
+    }
+}

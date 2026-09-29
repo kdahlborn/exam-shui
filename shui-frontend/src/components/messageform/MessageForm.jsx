@@ -1,34 +1,60 @@
-import { useState } from 'react';
 import './index.css';
 import Button from '../button/Button';
+import { useForm } from 'react-hook-form';
+import { useAuthStore } from '../../stores/useAuthStore.js';
+import { useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { createMessage, updateMessage } from '../../api/messages';
+import { useNavigate } from 'react-router-dom';
 
 const MessageForm = ({ message = null }) => {
-    const [text, setText] = useState(message?.text ?? '');
+    const token = useAuthStore((state) => state.token);
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const { register, handleSubmit, reset, watch } = useForm({
+        defaultValues: {
+            text: message?.text ?? '',
+        },
+    });
+
+    const text = watch('text');
+
+    const { mutate, isPending, isError, error } = useMutation({
+        mutationFn: (text) =>
+            message
+                ? updateMessage(message.messageId, text, token)
+                : createMessage(text, token),
+
+        onSuccess: () => {
+            if (message) {
+                // Ogiltigförklarar det cachade meddelandet så att den uppdaterade versionen hämtas från API:t nästa gång
+                queryClient.invalidateQueries({
+                    queryKey: ['message', message.messageId],
+                });
+            }
+
+            reset();
+            navigate('/');
+        },
+    });
+
+    const onSubmit = (data) => {
+        mutate(data.text);
+    };
 
     return (
-        <form className="message-form">
-            <label className="message-form__label">
-                Användarnamn
-
-                <input
-                    type="text"
-                    className="message-form__input"
-                    placeholder="Skriv ditt namn här"
-                    value={ !message ? '' : message.user.username }
-                    disabled={ !message ? false : true }
-                />
-            </label>
-
+        <form className="message-form" onSubmit={handleSubmit(onSubmit)}>
             <label className="message-form__label">
                 Meddelande
-
                 <div className="message-form__textarea-wrapper">
                     <textarea
                         className="message-form__textarea"
                         placeholder="Vad vill du säga?"
                         maxLength={200}
-                        value={ text }
-                        onChange={(event) => setText(event.target.value)}
+                        {...register('text', {
+                            required: 'Vänligen skriv ett meddelande',
+                        })}
                     />
 
                     <span className="message-form__counter">
@@ -36,16 +62,21 @@ const MessageForm = ({ message = null }) => {
                     </span>
                 </div>
             </label>
-            <Button 
-                text={ !message ? 'Publicera' : 'Spara ändringar' }
-                type="default"
-                onClick={ console.log('Spara meddelande') }
+
+            <Button
+                text={
+                    isPending
+                        ? 'Publicerar...'
+                        : !message
+                          ? 'Publicera'
+                          : 'Spara ändringar'
+                }
+                type="submit"
+                disabled={isPending}
             />
-            <Button 
-                text="Rensa"
-                type="outline"
-                onClick={ console.log('Rensa') }
-            />
+            <Button text="Rensa" type="outline" onClick={() => reset()} />
+
+            {isError && <p className="message-form__error">{error.message}</p>}
         </form>
     );
 };

@@ -40,6 +40,14 @@
         }
     }
 
+    .register-form__error {
+        color: var(--color-danger);
+    }
+
+    .register-form__success {
+        color: var(--color-success);
+    }
+
     .register-form__message {
         align-self: center;
 
@@ -48,5 +56,4 @@
             text-decoration: none;
         }
     }
-
 }
