@@ -46,7 +46,7 @@ const Message = ({ message }) => {
             <div className="message__content">
                 <div className="message__content-top">
                     <Link
-                        to={`/users/${message.userId}`}
+                        to={`/users/${message.username}`}
                         className="message__user-link"
                     >
                         <h4 className="message__user">{message.username}</h4>

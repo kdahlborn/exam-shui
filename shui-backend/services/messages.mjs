@@ -8,6 +8,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import createError from 'http-errors';
 
+// ADD MESSAGE
 export const addMessage = async (message) => {
     try {
         const command = new PutCommand({
@@ -24,6 +25,7 @@ export const addMessage = async (message) => {
     }
 };
 
+// GET MESSAGES
 export const getMessages = async () => {
     try {
         const command = new QueryCommand({
@@ -44,14 +46,15 @@ export const getMessages = async () => {
     }
 };
 
-export const getMessagesByUserId = async (userId) => {
+// GET MESSAGES BY USERNAME
+export const getMessagesByUsername = async (username) => {
     try {
         const command = new QueryCommand({
             TableName: 'shui-db',
             IndexName: 'GSI1',
             KeyConditionExpression: 'GSI1PK = :gsi1pk',
             ExpressionAttributeValues: {
-                ':gsi1pk': `USER#${userId}`,
+                ':gsi1pk': `USER#${username.toLowerCase()}`,
             },
         });
 
@@ -64,6 +67,7 @@ export const getMessagesByUserId = async (userId) => {
     }
 };
 
+// GET MESSAGE BY ID
 export const getMessageById = async (messageId) => {
     try {
         const command = new GetCommand({
@@ -83,6 +87,7 @@ export const getMessageById = async (messageId) => {
     }
 };
 
+// UPDATE MESSAGE
 export const updateMessage = async (messageId, updatedData) => {
     try {
         const command = new UpdateCommand({
@@ -110,6 +115,7 @@ export const updateMessage = async (messageId, updatedData) => {
     }
 };
 
+// DELETE MESSAGE
 export const deleteMessage = async (messageId) => {
     try {
         const command = new DeleteCommand({

@@ -1,7 +1,8 @@
 import { db } from './db.mjs';
-import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import createError from 'http-errors';
 
+// ADD USER
 export const addUser = async (user) => {
     try {
         const command = new PutCommand({
@@ -18,6 +19,7 @@ export const addUser = async (user) => {
     }
 };
 
+// GET USER BY EMAIL
 export const getUserByEmail = async (email) => {
     try {
         const command = new QueryCommand({
@@ -33,6 +35,26 @@ export const getUserByEmail = async (email) => {
         const { Items } = await db.send(command);
 
         return Items[0];
+    } catch (error) {
+        console.error('ERROR:', error);
+        throw createError(500, error.message);
+    }
+};
+
+// GET USER BY USERNAME
+export const getUserByUsername = async (username) => {
+    try {
+        const command = new GetCommand({
+            TableName: 'shui-db',
+            Key: {
+                PK: `USER#${username.toLowerCase()}`,
+                SK: 'PROFILE',
+            },
+        });
+
+        const { Item } = await db.send(command);
+
+        return Item;
     } catch (error) {
         console.error('ERROR:', error);
         throw createError(500, error.message);

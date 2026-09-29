@@ -1,32 +1,35 @@
 const BASE_URL = 'https://hon3uvp5z2.execute-api.eu-north-1.amazonaws.com';
 
+// GET MESSAGES
 export const getMessages = async () => {
     const response = await fetch(`${BASE_URL}/messages`);
 
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'Could not update message');
+        throw new Error(data.message || 'Could not fetch messages');
     }
 
     return data.messages;
 };
 
+// GET MESSAGE BY ID
 export const getMessageById = async (messageId) => {
     const response = await fetch(`${BASE_URL}/messages/${messageId}`);
 
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'Could not update message');
+        throw new Error(data.message || 'Could not fetch message');
     }
 
     return data.message;
 };
 
-export const getMessagesByUserId = async (userId) => {
+// GET MESSAGES BY USERNAME
+export const getMessagesByUsername = async (username) => {
     const params = new URLSearchParams({
-        userId,
+        username,
     });
 
     const response = await fetch(`${BASE_URL}/messages?${params.toString()}`);
@@ -34,12 +37,13 @@ export const getMessagesByUserId = async (userId) => {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'Could not update message');
+        throw new Error(data.message || 'Could not fetch user messages');
     }
 
     return data.messages;
 };
 
+// GET MY MESSAGES
 export const getMyMessages = async (token) => {
     const response = await fetch(`${BASE_URL}/users/me/messages`, {
         headers: {
@@ -50,12 +54,13 @@ export const getMyMessages = async (token) => {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.message || 'Could not update message');
+        throw new Error(data.message || 'Could not fetch messages');
     }
 
     return data.messages;
 };
 
+// CREATE MESSAGE
 export const createMessage = async (text, token) => {
     const response = await fetch(`${BASE_URL}/messages`, {
         method: 'POST',
@@ -77,6 +82,7 @@ export const createMessage = async (text, token) => {
     return data.newMessage;
 };
 
+// UPDATE MESSAGE
 export const updateMessage = async (messageId, text, token) => {
     const response = await fetch(`${BASE_URL}/messages/${messageId}`, {
         method: 'PUT',
@@ -98,6 +104,7 @@ export const updateMessage = async (messageId, text, token) => {
     return data.updatedMessage;
 };
 
+// DELETE MESSAGE
 export const deleteMessage = async (messageId, token) => {
     const response = await fetch(`${BASE_URL}/messages/${messageId}`, {
         method: 'DELETE',

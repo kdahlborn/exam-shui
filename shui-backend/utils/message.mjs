@@ -8,7 +8,7 @@ export const createMessage = (messageData) => {
         PK: 'MESSAGE',
         SK: messageId,
 
-        GSI1PK: `USER#${messageData.userId}`,
+        GSI1PK: `USER#${messageData.username.toLowerCase()}`,
         GSI1SK: `${messageId}`,
 
         messageId,
