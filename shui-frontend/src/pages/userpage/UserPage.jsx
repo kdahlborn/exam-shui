@@ -14,7 +14,7 @@ const UserPage = () => {
         isError,
         error,
     } = useQuery({
-        queryKey: ['messages'],
+        queryKey: ['messages', 'user', userId],
         queryFn: () => getMessagesByUserId(userId),
     });
 
