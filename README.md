@@ -350,7 +350,7 @@ Token används sedan i `Authorization`-headern på endpoints som kräver autenti
 
 # DynamoDB
 
-Projektet använder en DynamoDB-tabell som heter `shui-db`.
+Projektet använder en single-table som heter `shui-db`.
 
 Tabellen använder en composite primary key:
 
