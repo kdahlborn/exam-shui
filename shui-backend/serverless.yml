@@ -65,6 +65,12 @@ functions:
             - httpApi:
                   path: /messages
                   method: GET
+    getMessageById:
+        handler: functions/messages/getMessageById/index.handler
+        events:
+            - httpApi:
+                  path: /messages/{messageId}
+                  method: GET
     getMyMessages:
         handler: functions/messages/getMyMessages/index.handler
         events:

@@ -4,7 +4,7 @@ import Button from '../button/Button';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../stores/useAuthStore.js';
 import { useMutation } from '@tanstack/react-query';
-import { createMessage } from '../../api/messages';
+import { createMessage, updateMessage } from '../../api/messages';
 import { useNavigate } from 'react-router-dom';
 
 const MessageForm = ({ message = null }) => {
@@ -20,7 +20,11 @@ const MessageForm = ({ message = null }) => {
     const text = watch('text');
 
     const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: (text) => createMessage(text, token),
+        mutationFn: (text) =>
+            message
+                ? updateMessage(message.messageId, text, token)
+                : createMessage(text, token),
+
         onSuccess: () => {
             reset();
             navigate('/');

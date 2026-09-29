@@ -3,13 +3,25 @@ const BASE_URL = 'https://hon3uvp5z2.execute-api.eu-north-1.amazonaws.com';
 export const getMessages = async () => {
     const response = await fetch(`${BASE_URL}/messages`);
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error('Could not fetch messages');
+        throw new Error(data.message || 'Could not update message');
     }
+
+    return data.messages;
+};
+
+export const getMessageById = async (messageId) => {
+    const response = await fetch(`${BASE_URL}/messages/${messageId}`);
 
     const data = await response.json();
 
-    return data.messages;
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not update message');
+    }
+
+    return data.message;
 };
 
 export const getMessagesByUserId = async (userId) => {
@@ -19,11 +31,11 @@ export const getMessagesByUserId = async (userId) => {
 
     const response = await fetch(`${BASE_URL}/messages?${params.toString()}`);
 
-    if (!response.ok) {
-        throw new Error('Could not fetch user messages');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not update message');
+    }
 
     return data.messages;
 };
@@ -35,11 +47,11 @@ export const getMyMessages = async (token) => {
         },
     });
 
-    if (!response.ok) {
-        throw new Error('Could not fetch your messages');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not update message');
+    }
 
     return data.messages;
 };
@@ -77,11 +89,11 @@ export const updateMessage = async (messageId, text, token) => {
         }),
     });
 
-    if (!response.ok) {
-        throw new Error('Could not update message');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || 'Could not update message');
+    }
 
     return data.updatedMessage;
 };
