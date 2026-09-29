@@ -72,6 +72,11 @@
         }
     }
 
+    .message__error {
+        color: var(--color-danger);
+        grid-column: auto / span 3;
+    }
+
     .message__icon-group {
         display: flex;
         align-items: center;
