@@ -3,10 +3,39 @@ import { NotePencilIcon, TrashIcon } from '@phosphor-icons/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatDate } from '../../utils';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { deleteMessage } from '../../api/messages';
 
 const Message = ({ message }) => {
     const navigate = useNavigate();
+
     const user = useAuthStore((state) => state.user);
+    const token = useAuthStore((state) => state.token);
+
+    const queryClient = useQueryClient();
+
+    const { mutate, isError, error } = useMutation({
+        mutationFn: () => deleteMessage(message.messageId, token),
+        onSuccess: () => {
+            // Ogiltigförklarar det cachade meddelandet så att den uppdaterade versionen hämtas från API:t
+            queryClient.invalidateQueries({
+                queryKey: ['messages'],
+            });
+        },
+    });
+
+    const handleDelete = () => {
+        const confirmed = window.confirm(
+            'Är du säker på att du vill ta meddelandet?',
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        mutate();
+    };
 
     return (
         <article className="message">
@@ -28,7 +57,7 @@ const Message = ({ message }) => {
                 </div>
                 <p className="message__text">{message.text}</p>
             </div>
-            {user.userId === message.userId && (
+            {user?.userId === message.userId && (
                 <div className="message__icon-group">
                     <NotePencilIcon
                         className="icon icon--pencil"
@@ -43,9 +72,12 @@ const Message = ({ message }) => {
                         size={20}
                         weight="bold"
                         color="red"
+                        onClick={handleDelete}
                     />
                 </div>
             )}
+
+            {isError && <p className="message__error">{error.message}</p>}
         </article>
     );
 };
