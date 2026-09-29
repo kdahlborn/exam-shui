@@ -44,26 +44,6 @@ export const getMessages = async () => {
     }
 };
 
-export const getMessagesByUserId = async (userId) => {
-    try {
-        const command = new QueryCommand({
-            TableName: 'shui-db',
-            IndexName: 'GSI1',
-            KeyConditionExpression: 'GSI1PK = :gsi1pk',
-            ExpressionAttributeValues: {
-                ':gsi1pk': `USER#${userId}`,
-            },
-        });
-
-        const { Items } = await db.send(command);
-
-        return Items;
-    } catch (error) {
-        console.error('ERROR:', error);
-        throw createError(500, error.message);
-    }
-};
-
 export const getMessagesByUsername = async (username) => {
     try {
         const command = new QueryCommand({
@@ -71,7 +51,7 @@ export const getMessagesByUsername = async (username) => {
             IndexName: 'GSI1',
             KeyConditionExpression: 'GSI1PK = :gsi1pk',
             ExpressionAttributeValues: {
-                ':gsi1pk': `USER#${username}`,
+                ':gsi1pk': `USER#${username.toLowerCase()}`,
             },
         });
 

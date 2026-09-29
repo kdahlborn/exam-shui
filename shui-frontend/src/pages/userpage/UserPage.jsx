@@ -2,11 +2,11 @@ import './index.css';
 import Header from '../../components/header/Header';
 import MessageFlow from '../../components/messageflow/MessageFlow';
 import { useQuery } from '@tanstack/react-query';
-import { getMessagesByUserId } from '../../api/messages';
+import { getMessagesByUsername } from '../../api/messages';
 import { useParams } from 'react-router-dom';
 
 const UserPage = () => {
-    const { userId } = useParams();
+    const { username } = useParams();
 
     const {
         data: messages,
@@ -14,8 +14,8 @@ const UserPage = () => {
         isError,
         error,
     } = useQuery({
-        queryKey: ['messages', 'user', userId],
-        queryFn: () => getMessagesByUserId(userId),
+        queryKey: ['messages', 'user', username],
+        queryFn: () => getMessagesByUsername(username),
     });
 
     if (isLoading) {
@@ -31,7 +31,7 @@ const UserPage = () => {
             <div className="wrapper">
                 <section className="userpage__top">
                     <h2 className="userpage__title">
-                        {messages[0].username}'s meddelanden
+                        {username}'s meddelanden
                     </h2>
                 </section>
 

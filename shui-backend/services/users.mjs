@@ -44,7 +44,7 @@ export const getUserByUsername = async (username) => {
         const command = new GetCommand({
             TableName: 'shui-db',
             Key: {
-                PK: `USER#${username}`,
+                PK: `USER#${username.toLowerCase()}`,
                 SK: 'PROFILE',
             },
         });

@@ -1,5 +1,6 @@
 const BASE_URL = 'https://hon3uvp5z2.execute-api.eu-north-1.amazonaws.com/auth';
 
+// REGISTER
 export const register = async (userData) => {
     const response = await fetch(`${BASE_URL}/register`, {
         method: 'POST',
@@ -18,6 +19,7 @@ export const register = async (userData) => {
     return data;
 };
 
+// LOGIN
 export const login = async (credentials) => {
     const response = await fetch(`${BASE_URL}/login`, {
         method: 'POST',
