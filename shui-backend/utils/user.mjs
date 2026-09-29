@@ -4,7 +4,7 @@ export const createUser = async (body) => {
     const userId = crypto.randomUUID().slice(0, 5);
 
     return {
-        PK: `USER#${userId}`,
+        PK: `USER#${body.username}`,
         SK: 'PROFILE',
 
         GSI1PK: 'USER',
