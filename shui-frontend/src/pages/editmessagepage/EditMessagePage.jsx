@@ -19,7 +19,7 @@ const EditMessagePage = () => {
     });
 
     if (isLoading) {
-        return <p>Loading...</p>;
+        return <p>Laddar...</p>;
     }
 
     if (isError) {

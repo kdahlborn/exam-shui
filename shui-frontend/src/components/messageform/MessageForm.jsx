@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import './index.css';
 import Button from '../button/Button';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '../../stores/useAuthStore.js';
 import { useMutation } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { createMessage, updateMessage } from '../../api/messages';
 import { useNavigate } from 'react-router-dom';
 
 const MessageForm = ({ message = null }) => {
     const token = useAuthStore((state) => state.token);
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
 
     const { register, handleSubmit, reset, watch } = useForm({
         defaultValues: {
@@ -26,6 +27,13 @@ const MessageForm = ({ message = null }) => {
                 : createMessage(text, token),
 
         onSuccess: () => {
+            if (message) {
+                // Ogiltigförklarar det cachade meddelandet så att den uppdaterade versionen hämtas från API:t nästa gång
+                queryClient.invalidateQueries({
+                    queryKey: ['message', message.messageId],
+                });
+            }
+
             reset();
             navigate('/');
         },
@@ -56,7 +64,13 @@ const MessageForm = ({ message = null }) => {
             </label>
 
             <Button
-                text={!message ? 'Publicera' : 'Spara ändringar'}
+                text={
+                    isPending
+                        ? 'Publicerar...'
+                        : !message
+                          ? 'Publicera'
+                          : 'Spara ändringar'
+                }
                 type="submit"
                 disabled={isPending}
             />
