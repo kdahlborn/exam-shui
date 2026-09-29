@@ -5,6 +5,7 @@ import RegisterPage from '../pages/registerpage/RegisterPage';
 import NewMessagePage from '../pages/newmessagepage/NewMessagePage';
 import EditMessagePage from '../pages/editmessagepage/EditMessagePage';
 import UserPage from '../pages/userpage/UserPage';
+import MyPage from '../pages/mypage/MyPage';
 
 export const router = createBrowserRouter([
     {
@@ -30,5 +31,9 @@ export const router = createBrowserRouter([
     {
         path: '/users/:username',
         element: <UserPage />,
+    },
+    {
+        path: '/users/me',
+        element: <MyPage />,
     },
 ]);

@@ -15,7 +15,7 @@ const Navigation = () => {
             </NavLink>
 
             {user && (
-                <NavLink to={`/users/${user.userId}`} className="nav__link">
+                <NavLink to={`/users/me`} className="nav__link">
                     Min sida
                 </NavLink>
             )}
