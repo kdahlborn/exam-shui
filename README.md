@@ -6,7 +6,7 @@ För VG-delen har jag även lagt till registrering, inloggning och JWT-baserad a
 
 ## Deployad applikation
 
-[Shui-applikationen](LÄGG-IN-DEPLOYAD-URL-HÄR)
+[Shui-applikationen](http://konrad-exam-shui.s3-website.eu-north-1.amazonaws.com/)
 
 ## API
 
